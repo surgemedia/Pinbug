@@ -1,0 +1,59 @@
+<button id="bugform_button">Feedback</button>
+<div id="bugform" class="hidden_bug">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <div class="panel-heading">
+        <h2 class="panel-title" style="color:#000">Feedback Form</h2>
+    </div>
+    <div class="panel-body">
+        <form name="contactform" method="post" action="www.pinbug.com.au/bug/mailer.php" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="inputName" class="col-lg-2 control-label">Page</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="bug_page_curl" name="bug_page_curl">
+                    <button type="button" onclick="getPage();">Click on the Error</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail1" class="col-lg-2 control-label">Priority</label>
+                <div class="col-lg-10">
+                    <select class="selectpicker" id="bug_page_priority" name="bug_page_priority">
+                        <option value="Low Priority #yellow">Low</option>
+                        <option value="Middle Priority #orange">Middle</option>
+                        <option value="High Priority #red">High</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputSubject" class="col-lg-2 control-label">Subject</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="inputSubject" name="inputSubject" placeholder="Subject Message">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword1" class="col-lg-2 control-label">Message</label>
+                <div class="col-lg-10">
+                    <textarea class="form-control" rows="4" id="inputMessage" name="inputMessage" placeholder="Your message..."></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <button type="submit" class="btn btn-default">
+                    Send Message
+                    </button>
+                </div>
+            </div>
+        </form>
+        <script type="text/javascript">
+        $('#bug_page_curl').val(window.location.href)
+        
+
+        $("#bugform_button").click(function(){
+            $("#bugform").toggleClass('hidden_bug');
+        });
+        </script>
+    </div>
+
+</div>

@@ -1,0 +1,86 @@
+
+
+
+<?php
+$random_hash = md5(date('r', time())); 
+
+function url(){
+  return sprintf(
+    "%s://%s%s",
+    isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+    $_SERVER['HTTP_HOST'],
+    $_SERVER['REQUEST_URI']
+  );
+}
+$random_hash = uniqid( "");
+$headers = 'From: ar_brad@msn.com  
+Content-type: multipart/mixed; boundary="'.$random_hash.'"';
+
+/* Set e-mail recipient */
+$mypriority = "yuen.brad@gmail.com";
+
+/* Check all form inputs using check_input function */
+$curl = check_input($_POST['bug_page_curl'], "Page with the bug");
+$priority = check_input($_POST['bug_page_priority'], "How critical is this bug?");
+$subject = check_input($_POST['inputSubject'], "Message Subject");
+$message = check_input($_POST['inputMessage'], "Your Message");
+//$image = check_input($_POST['screenshot_pingbug'], "Your screenshot");
+
+/* Let's prepare the message for the e-mail */
+$subject = "$priority - $subject - $curl";
+
+$photosfile = $_POST['bug_page_curl']."bug/images/img_screeshot.png";
+$filename = basename($photosfile);
+// Set your file path here
+$attachment = chunk_split(base64_encode(file_get_contents($photosfile))); 
+ob_start();
+//include attachment
+$random_hash = uniqid( "");
+
+$message .= '--'.$random_hash.'\r\n';
+$message .= 'Content-Type: image/png; 
+name=error.png\r\n';
+$message .= 'Content-transfer-encoding: base64'."\r\n"; 
+$message .= 'Content-disposition: attachment; file="'.$filename.'"\r\n'; 
+$message .= $attachment.'\r\n'; 
+$message .= '/r/n--'.$random_hash.'--';
+
+
+
+/* Send the message using mail() function */
+mail($mypriority, $subject, $message, $headers);
+
+unlink($photosfile);
+/* Redirect visitor to the thank you page */
+//header('/');
+exit();
+
+/* Functions we used */
+function check_input($data, $problem='')
+{
+ $data = trim($data);
+ $data = stripslashes($data);
+ $data = htmlspecialchars($data);
+if ($problem && strlen($data) == 0)
+{
+show_error($problem);
+}
+return $data;
+}
+
+function show_error($myError)
+{
+?>
+<html>
+<body>
+
+<p>Please correct the following error:</p>
+<strong><?php echo $myError; ?></strong>
+<p>Hit the back button and try again!</p>
+
+</body>
+</html>
+<?php
+exit();
+}
+?>
